@@ -1,9 +1,9 @@
 <?php
 //$str = 'What does the word <em>thrashing</em> mean?';
-$str = '<div style="MARGIN-LEFT: 0px"><div align="left">What does the word <em>thrashing</em> mean?</div></div>';
+//$str = '<div style="MARGIN-LEFT: 0px"><div align="left">What does the word <em>thrashing</em> mean?</div></div>';
 
 //$str = '<div align="left"><b>“I volunteer!” I gasp. “I volunteer as tribute!”</b></div>';
-
+$str = "soundlessly: �There's a white man at the door!� They ";
 print "$str\n";
 // “ - 8220,    ” - 8221,   - 160
 $results = array();
