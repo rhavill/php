@@ -1,0 +1,2 @@
+This is a non utf8 character: Э. The rest of the characters in this file should be valid.
+Non-ascii characters: ду
