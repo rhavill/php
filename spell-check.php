@@ -24,9 +24,8 @@ class SpellChecker {
         return $misspelled;
     }
 }
-//$speller = new SpellChecker();
-//$text = 'Here are some words. This word is missspelled.';
-//print_r($speller->getMisspelledWords($text));
-$pspell_link = pspell_new('en');
-//var_dump(pspell_check($pspell_link, 'càt'));
-var_dump(pspell_check($pspell_link, 'c'));
+$speller = new SpellChecker();
+$html = 'I am a great speler. How do you spell ag&agrave;ve? How to spell càt?  How to spell r&eacute;sum&eacute;? Is this mispelled? You like piña coladas?';
+$text = html_entity_decode($html);
+print "$text\n";
+print_r($speller->getMisspelledWords($text));
