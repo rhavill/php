@@ -30,8 +30,8 @@ function removeTags($text) {
 }
 
 $speller = new SpellChecker();
-$html = 'I can\'t spell good. I am a great speler. How do you spell ag&agrave;ve? How to spell càt?  How to spell r&eacute;sum&eacute;? Is this mispelled? You like piña coladas?';
-$html .= '<p>first paragraph contains a misspelled wurd</p><p>second paragraph lso has mispeled word.</p><p>The word r&eacute;sum&eacute; has html entities.</p><img src="blah.jpg"/>';
+$html = 'I can\'t spell good. I am a great speler. How do u2 spell ag&agrave;ve? How to spell càt?  How to spell r&eacute;sum&eacute;? Is this mispelled? You like piña coladas?';
+$html .= '<p>first paragraph contains a misspelled wurd</p><p>second paragraph lso has mispeled word.</p><p>The word r&eacute;sum&eacute; has html entities.</p><img src="blah.jpg"/>. More entities: Tom&amp;Jerry. 3 &lt; 4';
 $text = html_entity_decode($html);
 //$text = $html;
 print "Text: $text\n";
