@@ -1,7 +1,5 @@
 <?php
 
-$p = pspell_new("en","","","",PSPELL_FAST);
-
 $pspell_config = pspell_config_create("en");
 pspell_config_personal($pspell_config, "/tmp/custom.pws");
 $pspell_link = pspell_new_config($pspell_config);
