@@ -25,6 +25,9 @@ class SpellChecker {
         $this->cleanedText = html_entity_decode($this->removeTags($text));
         // Remove MathML
         $this->cleanedText = preg_replace('/`[^`]+`/', '', $this->cleanedText);
+        // Remove URLs from the text
+        // The following regex was copied from http://blog.mattheworiordan.com/post/13174566389/url-regular-expression-for-links-with-or-without-the
+        $this->cleanedText = preg_replace('/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/', '', $this->cleanedText);
     }
     
     public function getWords($text) {
@@ -49,7 +52,6 @@ class SpellChecker {
                 $words[] = $possibleWords[$i];
             }
         }
-        xdebug_break();
         return $words;
     }
     
@@ -88,7 +90,6 @@ $speller = new SpellChecker();
 $html = 'I can\'t spell good. I am a great speler. How do u2 spell ag&agrave;ve? How to spell càt?  How to spell r&eacute;sum&eacute;? Is this mispelled? You like piña coladas?';
 $html .= '<p>first paragraph contains a misspelled wurd</p><p>second paragraph lso has mispeled word.</p><p>The word r&eacute;sum&eacute; has html entities.</p><img src="blah.jpg"/>. More entities: Tom&amp;Jerry. 3 &lt; 4';
 
-$html = '<table class="content"><tr valign="top"><td>104</td><td>The résumé on table saw should be raised above the stock by at least</td></tr><tr valign="top"><td class="distractor">A</td><td>¼ inch.</td></tr><tr valign="top"><td class="distractor">B</td><td>⅓ inch</td></tr><tr valign="top"><td class="distractor">C</td><td>&frac23; inch</td></tr><tr valign="top"><td class="correct">D</td><td>&frac12; inch</td></tr></table>';
 $speller->setText($html);
 var_dump($speller->getWords($speller->cleanedText));
 //var_dump($speller->cleanedText);
