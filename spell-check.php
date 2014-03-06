@@ -3,7 +3,7 @@
 class SpellChecker {
     private $dictionary;
     private $text;
-    private $cleanedText;
+    public $cleanedText;
     private $extraAllowedChars = 'ÀÁÂÃÄÅÆàáâãäåæÇçÐÈÉÊËèéêëÌÍÎÏìíîïÑñÒÓÔÕÖØŒòóôõöøœðÞþßÙÚÛÜùúûüŴŵÝŶŷýÿ';
     
     private function removeTags($text) {
@@ -11,30 +11,33 @@ class SpellChecker {
     }
     
     // This function was copied from http://php.net/manual/en/function.str-word-count.php
-//    private function str_word_count_utf8($str) {
-//        preg_match_all("/\\p{L}[\\p{L}\\p{Mn}\\p{Pd}'\\x{2019}]*/u", $str, $matches);
-//        return $matches[0];
-//    } 
+   private function str_word_count_utf8($str) {
+       preg_match_all("/\\p{L}[\\p{L}\\p{Mn}\\p{Pd}'\\x{2019}]*/u", $str, $matches);
+       return $matches[0];
+   } 
     
-    public function __construct($text = '') {
-        $this->dictionary = pspell_new('en','','','',PSPELL_FAST);
-        if ($text) {
-            $this->setText($text);
-        }
+    public function __construct() {
+        $this->dictionary = pspell_new("en");
     }
     
     public function setText($text) {
         $this->text = $text;
         $this->cleanedText = html_entity_decode($this->removeTags($text));
         // Remove MathML
-        $this->cleanedText = preg_replace('/`[^`]+`/', '', $this->cleanedText);        
+        $this->cleanedText = preg_replace('/`[^`]+`/', '', $this->cleanedText);
     }
     
     public function getWords($text) {
         $words = array();
-        $possibleWords = str_word_count($text, 1, $this->extraAllowedChars);
-        //$possibleWords = $this->str_word_count_utf8($this->cleanedText, 1, $this->extraAllowedChars);
+        //$possibleWords = str_word_count($text, 1, $this->extraAllowedChars);
+        $possibleWords = $this->str_word_count_utf8($this->cleanedText, 1, $this->extraAllowedChars);
         for ($i = 0; $i < count($possibleWords); $i++) {
+            // Remove apostrophes or single quotes "'" from beginning and end of words
+            $possibleWords[$i] = trim($possibleWords[$i], "'");
+            // Remove "'s" from the end of the word. This prevents false positives when the spell checker flags a word such as "children's" as being misspelled.
+            if (substr($possibleWords[$i], strlen($possibleWords[$i]) - 2, 2) == "'s") {
+                $possibleWords[$i] = substr($possibleWords[$i], 0, strlen($possibleWords[$i]) - 2);
+            }
             // Treat hyphenated words as 2 words
             if (strpos($possibleWords[$i], '-') !== FALSE) {
                 $splitWords = split("-", $possibleWords[$i]);
@@ -46,6 +49,7 @@ class SpellChecker {
                 $words[] = $possibleWords[$i];
             }
         }
+        xdebug_break();
         return $words;
     }
     
@@ -79,19 +83,12 @@ class SpellChecker {
     }
 }
 
-function removeTags($text) {
-    return preg_replace('/<[^>]+>/', ' ', $text);
-}
-
 $speller = new SpellChecker();
+
 $html = 'I can\'t spell good. I am a great speler. How do u2 spell ag&agrave;ve? How to spell càt?  How to spell r&eacute;sum&eacute;? Is this mispelled? You like piña coladas?';
 $html .= '<p>first paragraph contains a misspelled wurd</p><p>second paragraph lso has mispeled word.</p><p>The word r&eacute;sum&eacute; has html entities.</p><img src="blah.jpg"/>. More entities: Tom&amp;Jerry. 3 &lt; 4';
-$text = html_entity_decode($html);
-//$text = $html;
-print "Text: $text\n";
-$text = removeTags($text);
-print "Clean Text: $text\n";
-print "Words:\n";
-print_r($speller->getWords($text));
-print "Misspelled:\n";
-print_r($speller->getMisspelledWords($text));
+
+$html = '<table class="content"><tr valign="top"><td>104</td><td>The résumé on table saw should be raised above the stock by at least</td></tr><tr valign="top"><td class="distractor">A</td><td>¼ inch.</td></tr><tr valign="top"><td class="distractor">B</td><td>⅓ inch</td></tr><tr valign="top"><td class="distractor">C</td><td>&frac23; inch</td></tr><tr valign="top"><td class="correct">D</td><td>&frac12; inch</td></tr></table>';
+$speller->setText($html);
+var_dump($speller->getWords($speller->cleanedText));
+//var_dump($speller->cleanedText);
