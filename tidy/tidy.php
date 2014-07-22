@@ -7,11 +7,15 @@ print "$html\n";
 $html = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">'.
                 '<html><head><title>Title</title><meta http-equiv="Content-type" content="text/html;charset=UTF-8"></head><body>' . 
 $html . '</body></html>';
+$html = file_get_contents('/home/rhavill/Desktop/temp.html');
 $config = array(
   'char-encoding' => 'utf8',
   'input-encoding' => 'utf8',
 );
 $tidy = new \tidy;
+$clean = $tidy->repairString($html, $tidy_config, 'UTF8');
+print $clean;
+exit;
 $tidy->parseString($html, $config, 'utf8');
 $status = $tidy->getStatus();
 print "Status: $status\n";
