@@ -103,13 +103,18 @@ function getHtml($dom, $depth=0) {
 }
 
 require_once('ganon.php');
-$html = file_get_contents('../temp.html');
-$converter = new HtmlEntityConverter();
-$html = $converter->entitiesToCode($html);
+$html = file_get_contents('/tmp/temp.html');
+// $converter = new HtmlEntityConverter();
+// $html = $converter->entitiesToCode($html);
 $dom = str_get_dom($html);
 //$dom = file_get_dom('../temp.html');
 //print getHtml($dom('body', 0));
-print "<!DOCTYPE HTML>";
-$html =  getHtml($dom('html', 0));
-$html = $converter->codeToEntities($html);
-print $html;
+//print "<!DOCTYPE HTML>";
+//$html =  getHtml($dom('html', 0));
+foreach($dom('p') as $element) {
+   $element->setTag('div'); 
+    //print_r($element);
+ }
+
+//$html = $converter->codeToEntities($html);
+print $dom->html();
