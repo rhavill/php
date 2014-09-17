@@ -7,7 +7,7 @@ $str = "soundlessly: �There's a white man at the door!� They ";
 $str = 'TEXT   ';
 $str = '16x – 12sp ace';
 print "$str\n";
-
+$str = str_replace(' ', ' ', $str);
 // “ - 8220,    ” - 8221,   - 160
 $results = array();
 preg_match_all('/./u', $str, $results);
