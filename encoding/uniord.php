@@ -5,13 +5,16 @@
 //$str = '<div align="left"><b>“I volunteer!” I gasp. “I volunteer as tribute!”</b></div>';
 $str = "soundlessly: �There's a white man at the door!� They ";
 $str = 'TEXT   ';
+$str = '16x – 12sp ace';
 print "$str\n";
+
 // “ - 8220,    ” - 8221,   - 160
 $results = array();
 preg_match_all('/./u', $str, $results);
 foreach ($results[0] as $char) {
   print "$char - " . uniord($char) . "\n";
 }
+print_r($results);
 $offset = 0;
 print ordutf8($str, $offset);
 function uniord($u) { 
