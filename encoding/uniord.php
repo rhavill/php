@@ -1,24 +1,14 @@
 <?php
-//$str = 'What does the word <em>thrashing</em> mean?';
-//$str = '<div style="MARGIN-LEFT: 0px"><div align="left">What does the word <em>thrashing</em> mean?</div></div>';
+$str = "′";
 
-//$str = '<div align="left"><b>“I volunteer!” I gasp. “I volunteer as tribute!”</b></div>';
-$str = "soundlessly: �There's a white man at the door!� They ";
-$str = 'TEXT   ';
-$str = '16x – 12sp ace';
-$str = '((2x^3)/x^2) + 16x – 12';
-$str = '​f(x) = x^4 - x^3 + 2x^2 -3x + 1'; // typed by hand
-$str = '​f';
-$str = 'f';
-
-//"((2x^3)/x^2) + 16x – 12"
 print "$str\n";
 
 // “ - 8220,    ” - 8221,   - 160
 $results = array();
 preg_match_all('/./u', $str, $results);
 foreach ($results[0] as $char) {
-  print "$char - " . uniord($char) . "\n";
+  $val = uniord($char);
+  print "$char - " . $val . ' (0x' . dechex($val) .")\n";
 }
 exit;
 print_r($results);
