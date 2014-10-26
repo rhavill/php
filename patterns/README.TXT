@@ -1,1 +1,1 @@
-These are examples from the book "Learning PHP Design Patterns"
+These are examples from the O'Reilly book "Learning PHP Design Patterns" by William Sanders.
