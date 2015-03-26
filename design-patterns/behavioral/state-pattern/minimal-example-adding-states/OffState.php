@@ -3,6 +3,10 @@
 class OffState implements IState  {
 	private $context;
 
+	public function __construct(Context $contextNow) {
+		$this->context=$contextNow;
+	}
+
 	public function turnLightOn() {
 		echo "<img src='lights/on.png'>";
 		$this->context->setState($this->context->getOnState());
