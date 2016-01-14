@@ -2,6 +2,7 @@
 
 require_once './ConcreteComponent.php';
 require_once './ConcreteDecorator.php';
+require_once './ConcreteDecorator2.php';
 
 class Client
 {
@@ -12,6 +13,9 @@ class Client
         print $component->operation() . "\n";
         print "After decorator...\n";
         $wrapper = new ConcreteDecorator($component);
+        print $wrapper->operation() . "\n";
+        print "After decorator2...\n";
+        $wrapper = new ConcreteDecorator2($component);
         print $wrapper->operation() . "\n";
     }
 }
